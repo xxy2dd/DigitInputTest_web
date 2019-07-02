@@ -54,6 +54,7 @@
     name: 'Test',
     data() {
       return {
+        kind:'',
         pageSize: 5,
         page: 0,
         startTime: 0,
@@ -72,10 +73,11 @@
     created() {
       this.startTime = new Date().getTime();
       this.endTime = this.startTime + 1000 * 60 * 10;
+      this.kind = this.$route.query.kind;
     },
     mounted(){
       let inputEles = document.getElementsByTagName("input");
-      console.log(inputEles[0])
+//      console.log(inputEles[0])
       inputEles[0].focus();
     },
     methods: {
@@ -87,11 +89,12 @@
           this.allInputs[i + this.page * this.pageSize] = this.inputs[i].val;
         }
         let inputList = this.allInputs;
+
 //        console.log(inputList)
-        this.$router.push({name: 'Result', params: {inputList: inputList}})
+        this.$router.push({name: 'Result', params: {inputList: inputList,kind:this.kind }})
       },
       nextFocus(index) {
-        console.log("enter")
+//        console.log("enter")
         let keyCode = event.keyCode;
         let inputEles = document.getElementsByTagName("input");
         if (keyCode === 13) {
@@ -170,6 +173,7 @@
       submitTest() {
         let inputEles = document.getElementsByTagName("input");
         for (let i = 0; i < inputEles.length; i++) {
+          console.log(this.inputs[i])
           this.allInputs[i + this.page * this.pageSize] = this.inputs[i].val;
         }
         this.$confirm('交卷后将不能继续答题, 是否继续?', '提示', {
@@ -179,7 +183,7 @@
         }).then(() => {
           let inputList = this.allInputs;
 //          console.log(inputList)
-          this.$router.push({name: 'Result', params: {inputList: inputList}})
+          this.$router.push({name: 'Result',params: {inputList: inputList,kind:this.kind }})
         }).catch(() => {
           console.log("错误")
         });
@@ -192,7 +196,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .disable {
     pointer-events: none;
   }

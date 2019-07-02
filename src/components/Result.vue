@@ -46,8 +46,9 @@
     },
     created(){
       let inputList = this.$route.params.inputList;
-      console.log(inputList)
-      this.$axios.post(submitUrl(inputList)).then(res => {
+      let kind =  this.$route.params.kind
+//      console.log(inputList)
+      this.$axios.post(submitUrl(inputList,kind)).then(res => {
         console.log(res.data)
         this.loading = false;
         this.score = res.data.score;
@@ -62,7 +63,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .nav-item {
     width: 50px;
     margin: 0;
